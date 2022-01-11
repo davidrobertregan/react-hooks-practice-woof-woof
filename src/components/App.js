@@ -12,9 +12,19 @@ function App() {
     .then(pups => setPups(pups))
   }
 
+  const onPupClick = (e) => {
+    const name = e.target.textContent
+    const pup = pups.filter(p => p.name === name)[0]
+    setFeatPup(pup)
+  }
+
+  console.log(featPup)
+
   useEffect(getPups, [])
 
-  let pupSpans = pups.map(p => <span>{p.name}</span>)
+  let pupSpans = pups.map(p => <span key={p.id} onClick={onPupClick}>{p.name}</span>)
+
+  let pupInfo = featPup ? <><img src={featPup.image} alt={featPup.className} /><h2>{featPup.name}</h2> <button>{featPup.isGoodDog ? "Good Dog!" : "Bad Dog!"}</button></> : null
 
   return (
     <div className="App">
@@ -27,7 +37,7 @@ function App() {
       <div id="dog-summary-container">
         <h1>DOGGO:</h1>
         <div id="dog-info">
-
+          {pupInfo}
         </div>
       </div>
     </div>
