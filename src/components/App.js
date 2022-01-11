@@ -5,6 +5,7 @@ function App() {
 
   const [pups, setPups] = useState([])
   const [featPup, setFeatPup] = useState(null)
+  const [filterToggle, setFilterToggle] = useState(false)
 
   const getPups = () => {
     fetch("http://localhost:3001/pups")
@@ -35,6 +36,16 @@ function App() {
     })
   }
 
+  const onFilterClick = () => {
+    if(!filterToggle){
+      let goodDogs = pups.filter(p => p.isGoodDog === true)
+      setPups(goodDogs)
+    } else {
+      getPups()
+    }
+    setFilterToggle(!filterToggle)
+  }
+
 
   useEffect(getPups, [])
 
@@ -45,7 +56,7 @@ function App() {
   return (
     <div className="App">
       <div id="filter-div">
-        <button id="good-dog-filter">Filter good dogs: OFF</button>
+        <button onClick={onFilterClick} id="good-dog-filter">Filter good dogs: {filterToggle ? "ON" : "OFF"}</button>
       </div>
       <div id="dog-bar">
         {pupSpans}
